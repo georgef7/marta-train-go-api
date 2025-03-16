@@ -41,13 +41,13 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	// 	log.Println("Cannot load environment variables from .env.local file")
 	// }
 
-	allowedOrgins := strings.Split(os.Getenv("ALLOWED_ORIGINS"), ",")
-	log.Println(allowedOrgins)
+	allowedOrigins := strings.Split(os.Getenv("ALLOWED_ORIGINS"), ",")
+	log.Println("allowed origins", allowedOrigins)
 	origin := r.Header.Get("Origin")
 	log.Println("A request has been received. The origin of the request is:", origin)
 
 	// func Contains(s, v) reports whether v is present in s
-	allowAccess := slices.Contains(allowedOrgins, origin)
+	allowAccess := slices.Contains(allowedOrigins, origin)
 
 	// preflight checks
 	if r.Method == "OPTIONS" {
