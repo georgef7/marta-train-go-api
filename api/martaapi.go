@@ -69,7 +69,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	apiKey := os.Getenv("API_KEY")
-
+	log.Println("Debug API key", apiKey[0:6])
 	// add apiKey to URL
 	martaURL := fmt.Sprintf("https://developerservices.itsmarta.com:18096/itsmarta/railrealtimearrivals/developerservices/traindata?apiKey=%s", apiKey)
 
