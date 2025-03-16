@@ -1,7 +1,7 @@
 // Author: George Fang
 // Note that this project is not enorsed or affliated with MARTA in any way.
 
-package main
+package handler
 
 import (
 	"encoding/json"
