@@ -65,24 +65,28 @@ func main() {
 		response, httpGetErr := http.Get(martaURL)
 		if httpGetErr != nil {
 			log.Println("Something went wrong during GET.", httpGetErr)
+			return
 		}
 
 		// Read response
 		body, readErr := io.ReadAll(response.Body)
 		if readErr != nil {
 			log.Println("Something went wrong reading reqest", readErr)
+			return
 		}
 
 		var trainArrivalData trainArrival
 		unmarshalErr := json.Unmarshal(body, &trainArrivalData)
 		if unmarshalErr != nil {
 			log.Println("Error unmarshaling train arrival data", unmarshalErr)
+			return
 		}
 
 		w.Header().Set("Content-Type", "application/json")
 		encodeErr := json.NewEncoder(w).Encode(trainArrivalData)
 		if encodeErr != nil {
 			log.Println("Error encoding train arrival data", encodeErr)
+			return
 		}
 	})
 	log.Println("Train Arrival Service API Started!")
@@ -91,5 +95,13 @@ func main() {
 	// all origins accepted with simple methods (GET, POST). See
 	// documentation below for more options.
 	handler := cors.Default().Handler(mux)
-	http.ListenAndServe(":8080", handler)
+
+	port := os.Getenv("PORT")
+	// for vercel dynamic port
+	if port == "" {
+		port = "8080"
+	}
+
+	log.Println("Running in port", port)
+	http.ListenAndServe(":"+port, handler)
 }

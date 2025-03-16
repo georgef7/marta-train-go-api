@@ -1,15 +1,14 @@
 {
-    "version": 2,
     "builds": [
-      {
-        "src": "martapi.go",
-        "use": "@vercel/go"
-      }
+        {
+            "src": "martaapi.go",
+            "use": "@vercel/go"
+        }
     ],
     "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "martaapi.go"
-      }
+        {
+            "src": "/(.*)",
+            "dest": "martaapi"
+        }
     ]
-  }
+}
