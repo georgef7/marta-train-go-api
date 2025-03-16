@@ -1,7 +1,15 @@
 {
-    "functions": {
-      "api.go": {
-        "runtime": "@vercel/go"
-      }
-    }
-  }
+    "version": 2,
+    "builds": [
+        {
+            "src": "martaapi.go",
+            "use": "@vercel/go"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "martaapi.go"
+        }
+    ]
+}
