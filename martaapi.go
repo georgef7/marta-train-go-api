@@ -33,7 +33,7 @@ type trainArrival []struct {
 	Longitude      string `json:"LONGITUDE"`
 }
 
-func main() {
+func Handler() {
 	loadEnvError := godotenv.Load(".env.local")
 
 	if loadEnvError != nil {
