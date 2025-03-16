@@ -67,8 +67,15 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	if origin == "" {
 		w.Header().Set("Content-Type", "text/html")
 		w.WriteHeader(http.StatusOK)
-		fmt.Fprintln(w, `<h1>This serverless function is OK and online.</h1>
-			<p>To use this serverless function, visit <a href="https://georgef7.github.io/marta-station-display/"></a>.</p>`)
+		fmt.Fprintln(w,
+			`<!DOCTYPE html>
+			<html>
+			<body>
+				<h1>This serverless function is OK and online</h1>
+				<p>To use this serverless function, <a href="https://georgef7.github.io/marta-station-display/">click here</a>.</p></p>
+			</body>
+		</html>`)
+		return
 	} else if !allowAccess {
 		http.Error(w, "Access denied. Origin not accepted.", http.StatusForbidden)
 		return
