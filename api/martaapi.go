@@ -51,19 +51,25 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	// preflight checks
 	if r.Method == "OPTIONS" {
-        if allowAccess {
-            w.Header().Set("Access-Control-Allow-Origin", origin)
-            w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+		if allowAccess || origin == "" {
+			w.Header().Set("Access-Control-Allow-Origin", origin)
+			w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
 			w.Header().Set("Content-Type", "application/json")
-            w.WriteHeader(http.StatusOK)
-            return
-        } else {
-            http.Error(w, "Access denied. Origin not accepted.", http.StatusForbidden)
-            return
-        }
-    }
+			w.WriteHeader(http.StatusOK)
+			return
+		} else {
+			http.Error(w, "Access denied. Origin not accepted.", http.StatusForbidden)
+			return
+		}
+	}
 
-	if !allowAccess {
+	// for direct browser visits, no cross origin
+	if origin == "" {
+		w.Header().Set("Content-Type", "text/html")
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprintln(w, `<h1>This serverless function is OK and online.</h1>
+			<p>To use this serverless function, visit <a href="https://georgef7.github.io/marta-station-display/"></a>.</p>`)
+	} else if !allowAccess {
 		http.Error(w, "Access denied. Origin not accepted.", http.StatusForbidden)
 		return
 	}
@@ -96,7 +102,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", origin)
-    w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
 	encodeErr := json.NewEncoder(w).Encode(trainArrivalData)
 	if encodeErr != nil {
 		log.Println("Error encoding train arrival data", encodeErr)
