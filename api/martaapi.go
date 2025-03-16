@@ -42,7 +42,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	// }
 
 	allowedOrgins := strings.Split(os.Getenv("ALLOWED_ORIGINS"), ",")
-
+	log.Println(allowedOrgins)
 	origin := r.Header.Get("Origin")
 	log.Println("A request has been received. The origin of the request is:", origin)
 
