@@ -12,7 +12,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/joho/godotenv"
+	//"github.com/joho/godotenv" // for local dev use
 	//"github.com/rs/cors" // for local dev use
 	"slices"
 )
@@ -35,11 +35,11 @@ type trainArrival []struct {
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	log.Println("Train Arrival Service API Started!")
-	loadEnvError := godotenv.Load(".env.local")
+	// loadEnvError := godotenv.Load(".env.local")
 
-	if loadEnvError != nil {
-		log.Println("Cannot load environment variables from .env.local file")
-	}
+	// if loadEnvError != nil {
+	// 	log.Println("Cannot load environment variables from .env.local file")
+	// }
 
 	allowedOrgins := strings.Split(os.Getenv("ALLOWED_ORIGINS"), ",")
 
